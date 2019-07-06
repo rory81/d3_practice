@@ -64,7 +64,6 @@
                 .dimension(name_dim)
                 .group(spendByNameStoreA,'Store A')
                 .stack(spendByNameStoreB,'Store B')
-                // .transitionDuration(500)
                 .x(d3.scale.ordinal()) //because we are using categories and not numbers or dates
                 .xUnits(dc.units.ordinal)
                 .legend(dc.legend().x(420).y(0).itemHeight(15).gap(5));
