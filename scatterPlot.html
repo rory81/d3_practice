@@ -48,7 +48,7 @@
             var maxDate = date_dim.top(1)[0].date;
 
             var spend_dim = ndx.dimension(function(d) {
-                return [d.date, d.spend];
+                return [d.date, d.spend, d.name];
             })
 
             var spend_group = spend_dim.group();
@@ -61,6 +61,9 @@
                 .x(d3.time.scale().domain([minDate, maxDate]))
                 .xAxisLabel('Time')
                 .yAxisLabel('Amount Spent')
+                .title(function(d){
+                    return d.key[2] + ' spent ' + d.key[1];
+                })
                 .brushOn(false)
                 .symbolSize(8)
                 .clipPadding(10)
