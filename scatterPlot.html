@@ -52,6 +52,10 @@
             })
 
             var spend_group = spend_dim.group();
+            
+            var personColors = d3.scale.ordinal()
+            .domain(['Tom','Bob','Alice'])
+            .range(['green','red','blue']);
 
             var spend_chart = dc.scatterPlot('#scatter-plot')
 
@@ -64,6 +68,10 @@
                 .title(function(d){
                     return d.key[2] + ' spent ' + d.key[1];
                 })
+                .colorAccessor(function(d){
+                    return d.key[2];
+                })
+                .colors(personColors)
                 .brushOn(false)
                 .symbolSize(8)
                 .clipPadding(10)
