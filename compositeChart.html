@@ -47,32 +47,22 @@
             var minDate = date_dim.bottom(1)[0].date;
             var maxDate = date_dim.top(1)[0].date;
 
-            var tomSpendByMonth = date_dim.group().reduceSum(function(d) {
-                if (d.name === 'Tom') {
-                    return +d.spend;
+            function spend_by_name(name) {
+                return function(d) {
+                    if (d.name === name) {
+                        return +d.spend;
+                    }
+                    else {
+                        return 0;
+                    }
                 }
-                else {
-                    return 0;
-                }
-            });
+            }
 
-            var bobSpendByMonth = date_dim.group().reduceSum(function(d) {
-                if (d.name === 'Bob') {
-                    return +d.spend;
-                }
-                else {
-                    return 0;
-                }
-            });
+            var tomSpendByMonth = date_dim.group().reduceSum(spend_by_name('Tom'));
 
-            var aliceSpendByMonth = date_dim.group().reduceSum(function(d) {
-                if (d.name === 'Alice') {
-                    return +d.spend;
-                }
-                else {
-                    return 0;
-                }
-            });
+            var bobSpendByMonth = date_dim.group().reduceSum(spend_by_name('Bob'));
+
+            var aliceSpendByMonth = date_dim.group().reduceSum(spend_by_name('Alice'));
 
             var compositeChart = dc.compositeChart('#composite_chart');
             compositeChart
@@ -87,16 +77,15 @@
                 .compose([
                     dc.lineChart(compositeChart)
                     .colors('green')
-                    .group(tomSpendByMonth,'Tom'),
+                    .group(tomSpendByMonth, 'Tom'),
                     dc.lineChart(compositeChart)
                     .colors('red')
-                    .group(bobSpendByMonth,'Bob'),
+                    .group(bobSpendByMonth, 'Bob'),
                     dc.lineChart(compositeChart)
                     .colors('blue')
-                    .group(aliceSpendByMonth,'Alice')
-                    ]
-                )
-            .brushOn(false);
+                    .group(aliceSpendByMonth, 'Alice')
+                ])
+                .brushOn(false);
             dc.renderAll();
 
         };
